@@ -41,6 +41,7 @@ model Card {
   setId     Int
   set       Set         @relation(fields: [setId], references: [id])
   OwnedCard OwnedCard[]
+  Pack      Pack[]
 
   @@index([setId], map: "Card_setId_fkey")
 }
@@ -57,6 +58,7 @@ model User {
   kamas     Int         @default(1000)
   stats     Json
   cards     OwnedCard[]
+  OwnedPack OwnedPack[]
 }
 
 model OwnedCard {
@@ -68,4 +70,24 @@ model OwnedCard {
 
   @@unique([cardId, userId], name: "unique_owned_card")
   @@index([userId], map: "OwnedCard_userId_fkey")
+}
+
+model Pack {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  price     Int
+  cards     Card[]
+  OwnedPack OwnedPack[]
+}
+
+model OwnedPack {
+  id     Int    @id @default(autoincrement())
+  packId Int
+  userId BigInt
+  pack   Pack   @relation(fields: [packId], references: [id])
+  user   User   @relation(fields: [userId], references: [discordId])
+  amount Int
+
+  @@unique([packId, userId], name: "unique_owned_pack")
+  @@index([userId], map: "OwnedPack_userId_fkey")
 }
