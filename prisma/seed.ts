@@ -12,6 +12,7 @@ async function main() {
         // Generate dummy data
         await prisma.user.createMany({
             data: [
+                { discordId: 543756747651809300n, kamas: 1000, stats: userStats },
                 { discordId: 543756747651809280n, kamas: 1000, stats: userStats },
                 { discordId: 249270264733368330n, kamas: 0, stats: userStats },
                 { discordId: 315900478065999873n, kamas: 100000, stats: userStats },
