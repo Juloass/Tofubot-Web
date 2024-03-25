@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Game {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  config    Json
+  channelId BigInt
+  channel   Channel     @relation(fields: [channelId], references: [id])
+  GameInfos GameInfos[]
+
+  @@index([channelId], map: "Game_channelId_fkey")
+}
+
+model GameInfos {
+  id           Int  @id @default(autoincrement())
+  last_winner  Int
+  last_jackpot Int
+  gameId       Int
+  game         Game @relation(fields: [gameId], references: [id])
+
+  @@index([gameId], map: "GameInfos_gameId_fkey")
+}
+
+model Channel {
+  id   BigInt @id @unique
+  name String @unique
+  Game Game[]
+}
+
+model Card {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  rarity    Int
+  setId     Int
+  set       Set         @relation(fields: [setId], references: [id])
+  OwnedCard OwnedCard[]
+
+  @@index([setId], map: "Card_setId_fkey")
+}
+
+model Set {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  cards Card[]
+}
+
+model User {
+  id        Int         @id @default(autoincrement())
+  discordId BigInt      @unique
+  kamas     Int         @default(1000)
+  stats     Json
+  cards     OwnedCard[]
+}
+
+model OwnedCard {
+  id     Int    @id @default(autoincrement())
+  cardId Int
+  userId BigInt
+  card   Card   @relation(fields: [cardId], references: [id])
+  user   User   @relation(fields: [userId], references: [discordId])
+
+  @@unique([cardId, userId], name: "unique_owned_card")
+  @@index([userId], map: "OwnedCard_userId_fkey")
+}
