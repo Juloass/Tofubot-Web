@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import logo from "../../assets/logo.png";
+
 export default function Footer() {
   return (
     <footer className="bg-[#140C22] text-white text-center p-5 flex flex-col items-center justify-center">
