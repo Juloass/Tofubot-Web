@@ -1,20 +1,14 @@
-'use client'
-
 import Image from "next/image";
 import Link from "next/link";
 
-import logo from "../../assets/logo.png";
-import "./Footer.css";
-
 export default function Footer() {
-
   return (
-    <footer className="footer">
+    <footer className="bg-[#140C22] text-white text-center p-5 flex flex-col items-center justify-center">
       <Link href="/" passHref>
-          <Image src={logo} alt="Logo Tofuxia" className="header-logo" />
+          <Image src="/assets/logo.png" alt="Logo Tofuxia" width={50} height={50} className="rounded-full cursor-pointer" />
       </Link>
-      <p>© 2024 Tofuxia. Tous droits réservés.</p>
-      <a href="https://discord.gg/sVBCbnzkp3" className="discord-link">Rejoins-nous sur Discord</a>
+      <p className="text-lg my-2">© 2024 Tofuxia. Tous droits réservés.</p>
+      <a href="https://discord.gg/sVBCbnzkp3" className="mt-2">Rejoins-nous sur Discord</a>
     </footer>
   );
 }
