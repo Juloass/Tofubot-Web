@@ -1,13 +1,18 @@
-import NextAuth from "next-auth";
-import Discord from "next-auth/providers/discord";
+import NextAuth, { AuthOptions } from "next-auth";
+import DiscordProvider from "next-auth/providers/discord";
 
-export const authOptions = {
+// Here we removed the export
+const authOptions: AuthOptions = {
     providers: [
-        Discord({
-            clientId: process.env.DISCORD_CLIENT_ID ?? "",
-            clientSecret: process.env.DISCORD_CLIENT_SECRET ?? "",
+        DiscordProvider({
+            clientId: process.env.CLIENT_ID as string,
+            clientSecret: process.env.CLIENT_SECRET as string,
         }),
-    ]
+    ],
+    session: {
+        strategy: "jwt",
+    },
+    secret: process.env.NEXTAUTH_SECRET,
 }
 
 const handler = NextAuth(authOptions);
